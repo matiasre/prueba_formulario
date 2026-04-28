@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulario de Registro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg: #f4f1ea;
+      --ink: #1a1a1a;
+      --muted: #6b6b6b;
+      --accent: #ff5b2e;
+      --line: #1a1a1a;
+      --success-bg: #e8f5e9;
+      --success-ink: #1b5e20;
+      --error-bg: #fdecea;
+      --error-ink: #8b1a1a;
+      --card: #ffffff;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter Tight', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-image:
+        radial-gradient(circle at 20% 10%, rgba(255, 91, 46, 0.08), transparent 40%),
+        radial-gradient(circle at 80% 90%, rgba(26, 26, 26, 0.06), transparent 45%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.25rem;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 520px;
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      border-radius: 4px;
+      padding: 3rem 2.5rem;
+      box-shadow: 8px 8px 0 var(--line);
+      position: relative;
+    }
+
+    .shell::before {
+      content: "Nº 01";
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      font-family: 'Fraunces', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    .eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 800;
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      line-height: 1.05;
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    h1 em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--accent);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0 0 2.25rem;
+      line-height: 1.5;
+    }
+
+    form { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .field { display: flex; flex-direction: column; gap: 0.5rem; }
+
+    label {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 0.85rem 0;
+      font-family: inherit;
+      font-size: 1rem;
+      color: var(--ink);
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px solid var(--line);
+      border-radius: 0;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3e%3cpath d='M1 1l5 5 5-5' stroke='%231a1a1a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.25rem center;
+      padding-right: 1.75rem;
+      cursor: pointer;
+    }
+
+    input[type="text"]:focus, select:focus { border-bottom-color: var(--accent); }
+
+    input.invalid { border-bottom-color: var(--error-ink); }
+
+    .error-text {
+      font-size: 0.8rem;
+      color: var(--error-ink);
+      min-height: 1rem;
+      margin-top: 0.15rem;
+    }
+
+    button {
+      margin-top: 0.75rem;
+      padding: 1rem 1.5rem;
+      font-family: 'Fraunces', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #fff;
+      background: var(--ink);
+      border: 1.5px solid var(--ink);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.15s ease;
+      box-shadow: 4px 4px 0 var(--accent);
+    }
+
+    button:hover:not(:disabled) {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--accent);
+    }
+
+    button:active:not(:disabled) {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--accent);
+    }
+
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .status {
+      margin-top: 1.5rem;
+      padding: 0.9rem 1rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      display: none;
+      border: 1.5px solid transparent;
+      animation: fadein 0.3s ease;
+    }
+
+    .status.show { display: block; }
+    .status.success { background: var(--success-bg); color: var(--success-ink); border-color: var(--success-ink); }
+    .status.error { background: var(--error-bg); color: var(--error-ink); border-color: var(--error-ink); }
+
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(26,26,26,0.1);
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 480px) {
+      .shell { padding: 2.25rem 1.5rem; box-shadow: 5px 5px 0 var(--line); }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="eyebrow">Registro · 2026</div>
+    <h1>Formulario <em>de</em> Registro</h1>
+    <p class="subtitle">Completa los campos para guardar tu respuesta.</p>
+
+    <form id="registroForm" novalidate>
+      <div class="field">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Escribe tu nombre" />
+        <span class="error-text" id="nombreError"></span>
+      </div>
+
+      <div class="field">
+        <label for="opcion">Opción</label>
+        <select id="opcion" name="opcion">
+          <option value="Opción A">Opción A</option>
+          <option value="Opción B">Opción B</option>
+          <option value="Opción C">Opción C</option>
+        </select>
+      </div>
+
+      <button type="submit" id="submitBtn">Enviar →</button>
+    </form>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+    <footer>HECHO CON CUIDADO · 2026</footer>
+  </main>
+
+  <script>
+    // ⬇️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT (después de publicar la Web App)
+    const ENDPOINT_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnTA4y82zXBTk33d8ytWOaDRGX6guGa3YuvqzKpLW37orwNAOIwSNe8O76zuMX9_y_WbeYoY_7idKlVhNJL5vKmwaFxUFEsnfBFVtNAEaAu_SmX7r_Z-w37IcB6j0sucel0z21YfIedpC-OzFOMmcDZyISUhjMTSb5UAALYZdjWcevo8R9Zirz_6LK6RfPhkZk9fyl9XcpoFunssFEa8n_uyAeb9ChrOskydJ55RIT2kuDw1Mm2gUAU8BBHxmD1Yo7LWmoJcgSWBMp2nyUVTZa0ePXxb4A&lib=MLGtiHefcwjBGVS0j6c0SkoeO5H6d3Znu";
+
+    const form = document.getElementById("registroForm");
+    const nombreInput = document.getElementById("nombre");
+    const nombreError = document.getElementById("nombreError");
+    const opcionSelect = document.getElementById("opcion");
+    const status = document.getElementById("status");
+    const submitBtn = document.getElementById("submitBtn");
+
+    function showStatus(message, type) {
+      status.textContent = message;
+      status.className = `status show ${type}`;
+    }
+
+    function clearStatus() { status.className = "status"; status.textContent = ""; }
+
+    nombreInput.addEventListener("input", () => {
+      if (nombreInput.value.trim()) {
+        nombreInput.classList.remove("invalid");
+        nombreError.textContent = "";
+      }
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearStatus();
+
+      const nombre = nombreInput.value.trim();
+      const opcion = opcionSelect.value;
+
+      if (!nombre) {
+        nombreInput.classList.add("invalid");
+        nombreError.textContent = "Por favor ingresa tu nombre.";
+        nombreInput.focus();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = "Enviando...";
+
+      try {
+        const formData = new FormData();
+        formData.append("nombre", nombre);
+        formData.append("opcion", opcion);
+
+        // Usamos FormData para evitar el preflight CORS de Apps Script
+        const response = await fetch(ENDPOINT_URL, {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const data = await response.json();
+        if (data.result !== "success") throw new Error(data.message || "Error desconocido");
+
+        showStatus("✓ Datos guardados correctamente. ¡Gracias!", "success");
+        form.reset();
+      } catch (err) {
+        console.error(err);
+        showStatus("✗ Hubo un error al enviar los datos. Intenta nuevamente.", "error");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    });
+  </script>
+</body>
+</html>
