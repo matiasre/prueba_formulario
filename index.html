@@ -24,8 +24,7 @@
     }
 
     html, body {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       min-height: 100vh;
       background: var(--bg);
       color: var(--ink);
@@ -35,17 +34,67 @@
 
     body {
       background-image:
-        radial-gradient(circle at 20% 10%, rgba(255, 91, 46, 0.08), transparent 40%),
-        radial-gradient(circle at 80% 90%, rgba(26, 26, 26, 0.06), transparent 45%);
+        radial-gradient(circle at 20% 10%, rgba(255,91,46,0.08), transparent 40%),
+        radial-gradient(circle at 80% 90%, rgba(26,26,26,0.06), transparent 45%);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
       padding: 2rem 1.25rem;
+      gap: 1.5rem;
     }
 
-    .shell {
+    /* ── NAV ── */
+    nav {
       width: 100%;
-      max-width: 520px;
+      max-width: 620px;
+      display: flex;
+      gap: 0;
+      border: 1.5px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 4px 4px 0 var(--line);
+      background: var(--card);
+    }
+
+    nav button {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: transparent;
+      border: none;
+      border-bottom: 2.5px solid transparent;
+      border-radius: 0;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      box-shadow: none;
+      transform: none;
+    }
+
+    nav button:hover { color: var(--ink); background: rgba(0,0,0,0.02); }
+
+    nav button.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      background: rgba(255,91,46,0.04);
+    }
+
+    nav .divider {
+      width: 1.5px;
+      background: var(--line);
+      flex-shrink: 0;
+    }
+
+    /* ── PANEL ── */
+    .panel { display: none; width: 100%; max-width: 620px; }
+    .panel.active { display: block; }
+
+    /* ── SHELL (formulario) ── */
+    .shell {
       background: var(--card);
       border: 1.5px solid var(--line);
       border-radius: 4px;
@@ -57,8 +106,7 @@
     .shell::before {
       content: "Nº 01";
       position: absolute;
-      top: 1rem;
-      right: 1.25rem;
+      top: 1rem; right: 1.25rem;
       font-family: 'Fraunces', serif;
       font-size: 0.75rem;
       letter-spacing: 0.15em;
@@ -83,11 +131,7 @@
       letter-spacing: -0.02em;
     }
 
-    h1 em {
-      font-style: italic;
-      font-weight: 400;
-      color: var(--accent);
-    }
+    h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
 
     .subtitle {
       color: var(--muted);
@@ -97,7 +141,6 @@
     }
 
     form { display: flex; flex-direction: column; gap: 1.5rem; }
-
     .field { display: flex; flex-direction: column; gap: 0.5rem; }
 
     label {
@@ -132,7 +175,6 @@
     }
 
     input[type="text"]:focus, select:focus { border-bottom-color: var(--accent); }
-
     input.invalid { border-bottom-color: var(--error-ink); }
 
     .error-text {
@@ -142,7 +184,7 @@
       margin-top: 0.15rem;
     }
 
-    button {
+    button[type="submit"] {
       margin-top: 0.75rem;
       padding: 1rem 1.5rem;
       font-family: 'Fraunces', serif;
@@ -154,21 +196,22 @@
       border: 1.5px solid var(--ink);
       border-radius: 4px;
       cursor: pointer;
-      transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.15s ease;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
       box-shadow: 4px 4px 0 var(--accent);
+      width: 100%;
     }
 
-    button:hover:not(:disabled) {
+    button[type="submit"]:hover:not(:disabled) {
       transform: translate(-2px, -2px);
       box-shadow: 6px 6px 0 var(--accent);
     }
 
-    button:active:not(:disabled) {
+    button[type="submit"]:active:not(:disabled) {
       transform: translate(2px, 2px);
       box-shadow: 2px 2px 0 var(--accent);
     }
 
-    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
 
     .status {
       margin-top: 1.5rem;
@@ -190,67 +233,258 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── LISTADO ── */
+    .list-shell {
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      border-radius: 4px;
+      box-shadow: 8px 8px 0 var(--line);
+      overflow: hidden;
+    }
+
+    .list-header {
+      padding: 2rem 2.5rem 1.5rem;
+      border-bottom: 1.5px solid rgba(26,26,26,0.1);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .list-header h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 800;
+      font-size: 1.75rem;
+      margin: 0;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .list-header h2 em { font-style: italic; font-weight: 400; color: var(--accent); }
+
+    .list-meta {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .refresh-btn {
+      padding: 0.5rem 1rem;
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: transparent;
+      border: 1.5px solid var(--line);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s;
+      box-shadow: 2px 2px 0 var(--line);
+    }
+
+    .refresh-btn:hover { background: rgba(0,0,0,0.04); transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--line); }
+    .refresh-btn:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--line); }
+    .refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    thead tr {
+      border-bottom: 1.5px solid var(--line);
+    }
+
+    thead th {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--muted);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(26,26,26,0.07);
+      transition: background 0.15s;
+      animation: rowIn 0.3s ease both;
+    }
+
+    tbody tr:hover { background: rgba(255,91,46,0.03); }
+    tbody tr:last-child { border-bottom: none; }
+
+    @keyframes rowIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    td {
+      padding: 0.9rem 1.5rem;
+      color: var(--ink);
+      vertical-align: middle;
+    }
+
+    td.fecha { color: var(--muted); font-size: 0.82rem; white-space: nowrap; }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      border-radius: 3px;
+      background: rgba(255,91,46,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(255,91,46,0.25);
+    }
+
+    /* Empty / loading states */
+    .table-state {
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 20px; height: 20px;
+      border: 2px solid rgba(26,26,26,0.15);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin-bottom: 0.75rem;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .list-footer {
+      padding: 0.75rem 1.5rem;
+      border-top: 1px solid rgba(26,26,26,0.07);
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* ── FOOTER ── */
     footer {
-      margin-top: 2rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid rgba(26,26,26,0.1);
       font-size: 0.75rem;
       color: var(--muted);
       text-align: center;
       letter-spacing: 0.08em;
+      padding-top: 0.5rem;
     }
 
     @media (max-width: 480px) {
-      .shell { padding: 2.25rem 1.5rem; box-shadow: 5px 5px 0 var(--line); }
+      .shell, .list-shell { box-shadow: 5px 5px 0 var(--line); }
+      .shell { padding: 2.25rem 1.5rem; }
+      .list-header { padding: 1.5rem; }
+      thead th, td { padding-left: 1rem; padding-right: 1rem; }
     }
   </style>
 </head>
 <body>
-  <main class="shell">
-    <div class="eyebrow">Registro · 2026</div>
-    <h1>Formulario <em>de</em> Registro</h1>
-    <p class="subtitle">Completa los campos para guardar tu respuesta.</p>
 
-    <form id="registroForm" novalidate>
-      <div class="field">
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Escribe tu nombre" />
-        <span class="error-text" id="nombreError"></span>
+  <!-- NAV -->
+  <nav>
+    <button class="active" onclick="switchTab('form')">✦ Formulario</button>
+    <div class="divider"></div>
+    <button onclick="switchTab('list')">≡ Listado</button>
+  </nav>
+
+  <!-- PANEL: FORMULARIO -->
+  <div class="panel active" id="panel-form">
+    <div class="shell">
+      <div class="eyebrow">Registro · 2026</div>
+      <h1>Formulario <em>de</em> Registro</h1>
+      <p class="subtitle">Completa los campos para guardar tu respuesta.</p>
+
+      <form id="registroForm" novalidate>
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Escribe tu nombre" />
+          <span class="error-text" id="nombreError"></span>
+        </div>
+        <div class="field">
+          <label for="opcion">Opción</label>
+          <select id="opcion" name="opcion">
+            <option value="Opción A">Opción A</option>
+            <option value="Opción B">Opción B</option>
+            <option value="Opción C">Opción C</option>
+          </select>
+        </div>
+        <button type="submit" id="submitBtn">Enviar →</button>
+      </form>
+
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- PANEL: LISTADO -->
+  <div class="panel" id="panel-list">
+    <div class="list-shell">
+      <div class="list-header">
+        <div>
+          <div class="eyebrow">Base de datos</div>
+          <h2>Registros <em>actuales</em></h2>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">
+          <span class="list-meta" id="listMeta">— registros</span>
+          <button class="refresh-btn" id="refreshBtn" onclick="loadList()">↻ Actualizar</button>
+        </div>
       </div>
 
-      <div class="field">
-        <label for="opcion">Opción</label>
-        <select id="opcion" name="opcion">
-          <option value="Opción A">Opción A</option>
-          <option value="Opción B">Opción B</option>
-          <option value="Opción C">Opción C</option>
-        </select>
+      <div class="table-wrap">
+        <div id="tableContainer">
+          <div class="table-state">
+            <div class="spinner"></div>
+            <div>Cargando registros...</div>
+          </div>
+        </div>
       </div>
 
-      <button type="submit" id="submitBtn">Enviar →</button>
-    </form>
+      <div class="list-footer" id="listFooter">Sincronizado con Google Sheets</div>
+    </div>
+  </div>
 
-    <div id="status" class="status" role="status" aria-live="polite"></div>
-
-    <footer>HECHO CON CUIDADO · 2026</footer>
-  </main>
+  <footer>HECHO CON CUIDADO · 2026</footer>
 
   <script>
-    // ⬇️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT (después de publicar la Web App)
+    // ── CONFIGURACIÓN ──────────────────────────────────────────────
     const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbwJK1hZNophx6AKGtJL-5Y9W6SYKQGzXIrJJ0986-h3xW4e88KZ0fKytpvBsj271WBHfA/exec";
+    // ──────────────────────────────────────────────────────────────
 
+    // ── TABS ──
+    const navBtns = document.querySelectorAll("nav button");
+    function switchTab(tab) {
+      document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+      navBtns.forEach(b => b.classList.remove("active"));
+      document.getElementById("panel-" + tab).classList.add("active");
+      event.currentTarget.classList.add("active");
+      if (tab === "list") loadList();
+    }
+
+    // ── FORMULARIO ──
     const form = document.getElementById("registroForm");
     const nombreInput = document.getElementById("nombre");
     const nombreError = document.getElementById("nombreError");
-    const opcionSelect = document.getElementById("opcion");
     const status = document.getElementById("status");
     const submitBtn = document.getElementById("submitBtn");
 
-    function showStatus(message, type) {
-      status.textContent = message;
+    function showStatus(msg, type) {
+      status.textContent = msg;
       status.className = `status show ${type}`;
     }
-
     function clearStatus() { status.className = "status"; status.textContent = ""; }
 
     nombreInput.addEventListener("input", () => {
@@ -263,9 +497,8 @@
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       clearStatus();
-
       const nombre = nombreInput.value.trim();
-      const opcion = opcionSelect.value;
+      const opcion = document.getElementById("opcion").value;
 
       if (!nombre) {
         nombreInput.classList.add("invalid");
@@ -275,25 +508,17 @@
       }
 
       submitBtn.disabled = true;
-      const originalText = submitBtn.textContent;
+      const orig = submitBtn.textContent;
       submitBtn.textContent = "Enviando...";
 
       try {
-        const formData = new FormData();
-        formData.append("nombre", nombre);
-        formData.append("opcion", opcion);
-
-        // Usamos FormData para evitar el preflight CORS de Apps Script
-        const response = await fetch(ENDPOINT_URL, {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-        const data = await response.json();
+        const fd = new FormData();
+        fd.append("nombre", nombre);
+        fd.append("opcion", opcion);
+        const res = await fetch(ENDPOINT_URL, { method: "POST", body: fd });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
         if (data.result !== "success") throw new Error(data.message || "Error desconocido");
-
         showStatus("✓ Datos guardados correctamente. ¡Gracias!", "success");
         form.reset();
       } catch (err) {
@@ -301,9 +526,88 @@
         showStatus("✗ Hubo un error al enviar los datos. Intenta nuevamente.", "error");
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
+        submitBtn.textContent = orig;
       }
     });
+
+    // ── LISTADO ──
+    let listLoaded = false;
+
+    async function loadList() {
+      const container = document.getElementById("tableContainer");
+      const meta = document.getElementById("listMeta");
+      const footer = document.getElementById("listFooter");
+      const refreshBtn = document.getElementById("refreshBtn");
+
+      container.innerHTML = `<div class="table-state"><div class="spinner"></div><div>Cargando registros...</div></div>`;
+      refreshBtn.disabled = true;
+
+      try {
+        // Añadimos ?action=list para que el script sepa que queremos el listado
+        const res = await fetch(ENDPOINT_URL + "?action=list");
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        if (data.result !== "success") throw new Error(data.message || "Error al obtener datos");
+
+        const rows = data.rows || [];
+        meta.textContent = `${rows.length} registro${rows.length !== 1 ? "s" : ""}`;
+
+        if (rows.length === 0) {
+          container.innerHTML = `<div class="table-state">No hay registros aún. ¡Sé el primero en enviar el formulario!</div>`;
+        } else {
+          const tbody = rows.map((r, i) => `
+            <tr style="animation-delay:${i * 0.04}s">
+              <td class="fecha">${formatDate(r.fecha)}</td>
+              <td><strong>${escHtml(r.nombre)}</strong></td>
+              <td><span class="badge">${escHtml(r.opcion)}</span></td>
+            </tr>
+          `).join("");
+
+          container.innerHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha y hora</th>
+                  <th>Nombre</th>
+                  <th>Opción</th>
+                </tr>
+              </thead>
+              <tbody>${tbody}</tbody>
+            </table>
+          `;
+        }
+
+        const now = new Date();
+        footer.textContent = `Última actualización: ${now.toLocaleTimeString("es-CL")}`;
+        listLoaded = true;
+
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = `<div class="table-state" style="color:var(--error-ink)">✗ No se pudieron cargar los registros. Verifica la configuración del script.</div>`;
+        meta.textContent = "Error";
+      } finally {
+        refreshBtn.disabled = false;
+      }
+    }
+
+    function formatDate(raw) {
+      if (!raw) return "—";
+      const d = new Date(raw);
+      if (isNaN(d)) return raw;
+      return d.toLocaleString("es-CL", {
+        day: "2-digit", month: "2-digit", year: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      });
+    }
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
   </script>
 </body>
 </html>
